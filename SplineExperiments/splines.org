@@ -1,0 +1,48 @@
+* Spline Experiments
+[2021-08-08 søn]
+
+* Purpose
+
+I want to compare R: smooth.spline() and SmoothingSplines.jl 
+and possibly from scatch implementation based on wikipedia and 
+Elements of statistical Learning (Hastie et al).
+
+The objective is to get out df from lambda and optimize lambda using GCV etc.
+
+* Comparisson
+
+** SmoothingSplines.jl
+
+The example from the README:
+
+#+NAME: SmoothingSpliesn.jl example 1
+#+BEGIN_SRC ess-julia
+using SmoothingSplines
+using RDatasets
+using Gadfly
+
+cars = dataset("datasets","cars")
+X = map(Float64,convert(Array,cars[:Speed]))
+Y = map(Float64,convert(Array,cars[:Dist]))
+
+spl = fit(SmoothingSpline, X, Y, 250.0) # λ=250.0
+Ypred = predict(spl) # fitted vector
+plot(layer(x=X, y=Y, Geom.point),
+	layer(x=X, y=Ypred, Geom.line, 	Theme(default_color=colorant"red")))
+
+predict(spl, 20.0) #prediction at arbitrary point
+#+END_SRC
+
+No org-babel-execute for julia.
+
+Looks like the current alternative is through jupyter:
+https://github.com/tmurph/jupyter-mode#what-about-r-and-julia
+
+
+*** OBS
+    The test of SmoothingSplines show that in order to compare to lambda in smooth.spline(), X needs to be rescaled to 0..1
+    https://github.com/nignatiadis/SmoothingSplines.jl/blob/80001d8eab105487682501b599a25c4da03e1566/test/runtests.jl#L82
+
+*** OBS
+    The README of SmoothingSplines does not run in DataFrames :
+    ERROR: ArgumentError: syntax df[column] is not supported use df[!, column] instead
