@@ -13,7 +13,7 @@ In particular:
 Ideally it should compensate for
 
 * Ionic strength ([Debye-Hückel theory](https://en.wikipedia.org/wiki/Debye%E2%80%93H%C3%BCckel_theory))
-* Temperature \Delta G^\circ (https://en.wikipedia.org/wiki/Debye%E2%80%93H%C3%BCckel_theory) 
+* Temperature \Delta G^\circ (https://youtu.be/pJdUR2uak2s?t=444)
 
 ## Ryan Nelson: pHcalc
 
@@ -550,7 +550,7 @@ Buffer solutions in drug formulation and processing: How pKa values depend on te
 https://rucforsk.ruc.dk/ws/portalfiles/portal/64240902/Buffer_Solutions_in_Drug_Formulation_and_Processing_2nd_revision.pdf
 
 
-## Text book varsion
+## Text book version
 https://chem.libretexts.org/Bookshelves/Physical_and_Theoretical_Chemistry_Textbook_Maps/Supplemental_Modules_(Physical_and_Theoretical_Chemistry)/Acids_and_Bases/Monoprotic_Versus_Polyprotic_Acids_And_Bases/Calculating_the_pH_of_the_Solution_of_a_Polyprotic_Base%2F%2FAcid
 
 ## Lecture notes
