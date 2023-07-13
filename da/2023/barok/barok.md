@@ -56,7 +56,7 @@ Eksempler:
 
 * <https://open.smk.dk/artwork/image/KMSsp380> Gerard van Honthorst 1592 – 1656: En gammel kone.
 * <https://open.smk.dk/artwork/image/KMSsp152> Matthias Stom 1598 – 1650: En gammel kone og en yngling i skæret fra en olielampe
-* <https://open.smk.dk/artwork/image/KMSsp92> Kort- og brætspillere. Strid over et spil kort. 1616 – 1626. Theodoor Rombouts (tilskrevet) 1597 – 1637.
+* <https://open.smk.dk/artwork/image/KMSsp92> Kort- og brætspillere. Strid over et spil kort. 1616 – 1626. Theodoor Rombouts (tilskrevet) 1597 – 1637. Michelangelo Merisi da Caravaggio (tidligere tilskrevet) 1571 – 1610
 * <https://open.smk.dk/artwork/image/KMSsp378> Musiceren ved levende lys. 1623. Gerard van Honthorst 1592 – 1656
 * <https://open.smk.dk/artwork/image/KMSsp413> Jan Lievens (1607-1674) selvfortræt (olie på træ)
 
