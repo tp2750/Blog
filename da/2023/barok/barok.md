@@ -15,6 +15,7 @@ I musikken opfindes opera og koncert af komponister som Gabrieli (1554-1612) og 
 
 I matematik har vi de store gamle: Galilei (1564-1642), [Descartes (1596-1650)](https://open.smk.dk/artwork/image/DEP7), Fermat (1607-1665), Pascal (1623-1662), Newton (1642-1726), Leibniz (1646-1716), 
 Jacob Bernoulli (1655-1705). De blev ikke så gamle!
+Ref <https://mathigon.org/timeline>.
 
 Alder er status og man topper omkring 50 år (det virker ikke realistisk taget deres gennemsnitsalder i betragtning. Det er nok idealiseret). <https://open.smk.dk/artwork/image/KKSgb9989>, <https://open.smk.dk/artwork/image/KKSgb9503>
 
