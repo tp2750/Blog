@@ -94,9 +94,12 @@ Note, that you should not include the ".jl" in the package name.
 ## How to find packages
 
 The [general registry]() is a bit hard to navigate directly.
+The [Package finder on Juliahub](https://juliahub.com/ui/Packages) makes it easier.
+
 Usually including "jl" in searches will find useful packages.
 Many packages are collected under GitHub organizations. 
 That gives a nice feeling that it will be stable and supported.
+I have an incomplete list of Github organizations here: <https://tp2750.github.io/JuliaEcosystem.jl/dev/github_organizations/>
 
 Note, that Julia and packages use "semantic versioning". 
 A version number below 1.0 indicates that the API is still under development and may change frequently.
