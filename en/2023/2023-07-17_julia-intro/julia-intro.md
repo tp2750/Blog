@@ -112,7 +112,7 @@ The REPL and in-build package manager are good examples of this.
 The community is very friendly and helpful. 
 The main forum is on Discourse: <https://discourse.julialang.org/>.
 Questions here are usually answered very quickly.
-See [here]() for a list of community resources.
+See [here](https://julialang.org/community/) for a list of community resources.
 
 Other free resources include:
 
@@ -121,6 +121,9 @@ Other free resources include:
 * [Julia Bloggers](https://www.juliabloggers.com/) A blog aggregator
 * [Julia Data Science](https://juliadatascience.io/) A full length book with emphasis on data science
 * [Julia Academy](https://www.juliabloggers.com/) Online courses.
+
+A lot of good advice is collected here: https://m3g.github.io/JuliaNotes.jl/stable/.
+Some very experienced people are sharing best practices in this document: https://gdalle.github.io/ModernJuliaWorkflows/.
 
 Lots of tutorials online.
 
