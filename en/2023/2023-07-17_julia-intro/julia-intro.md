@@ -93,7 +93,7 @@ Note, that you should not include the ".jl" in the package name.
 
 ## How to find packages
 
-The [general registry]() is a bit hard to navigate directly.
+The [general registry](https://github.com/JuliaRegistries/General) is a bit hard to navigate directly.
 The [Package finder on Juliahub](https://juliahub.com/ui/Packages) makes it easier.
 
 Usually including "jl" in searches will find useful packages.
