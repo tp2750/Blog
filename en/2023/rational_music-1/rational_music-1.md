@@ -88,3 +88,11 @@ julia> [a   343 ./ a]
  8371.2    0.0409738
 ```
 
+A mathematician would choose C0 as 16 Hz to get nice numbers!
+That would be 21.4 m at 343 m/s.
+
+C6 would be 1024 Hz and 33.5 cm.
+
+I'll probably use those in my tests.
+
+I suppose it is the frequency that determines the sound, mot the wavelength.
