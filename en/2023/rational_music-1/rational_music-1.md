@@ -3,6 +3,13 @@ TP, 2023-10-21
 
 # Conclusions
 
+* A piano from C0 to C9 goes from about 2^4 (16) to 2^13 (8192) Hz
+* This corresponds to periods between 62.5 and 0.12 ms
+* An wavelengths between 21.4 m and 4.2 cm (at 343 m/s)
+* The tone with 1m wavelength (343 Hz) is between E4 and F4
+* Middle C3 os 261.63 Hz, 3.82 ms and 1.31 m
+* The A4 440 Hz is 2.27 ms and 78 cm
+
 # Objective
 
 I want to investigate sounds from a computer sound sybthesys point of view.
@@ -57,18 +64,19 @@ $$
 
 The piano spans from 20 m to 4 cm of wavelength.
 
-| Note | Hz     | m     |
-| ---  | ---    | ---   |
-| C0   | 16.35  | 20.98 |
-| C1   | 32.7   | 10.49 |
-| C2   | 65.4   | 5.24  |
-| C3   | 130.8  | 2.62  |
-| C4   | 261.6  | 1.31  |
-| C5   | 523.2  | 0.65  |
-| C6   | 1046.4 | .328  |
-| C7   | 2092.8 | 0.16  |
-| C8   | 4185.6 | 0.082 |
-| C9   | 8371.2 | 0.041 |
+| Note | freq Hz | wavelength m | Period ms |
+| ---  | ---     | ---          | ---       |
+| C0   | 16.35   | 20.98        | 61        |
+| C1   | 32.7    | 10.49        | 30.6      |
+| C2   | 65.4    | 5.24         | 15.3      |
+| C3   | 130.8   | 2.62         | 7.6       |
+| C4   | 261.6   | 1.31         | 3.82      |
+| C5   | 523.2   | 0.65         | 1.91      |
+| C6   | 1046.4  | .328         | 0.96      |
+| C7   | 2092.8  | 0.16         | 0.48      |
+| C8   | 4185.6  | 0.082        | 0.24      |
+| C9   | 8371.2  | 0.041        | 0.12      |
+
 
 ``` julia
 julia> a = 2 .^ [0,1,2,3,4,5,6,7,8,9] *16.35
