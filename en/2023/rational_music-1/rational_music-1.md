@@ -96,3 +96,30 @@ C6 would be 1024 Hz and 33.5 cm.
 I'll probably use those in my tests.
 
 I suppose it is the frequency that determines the sound, mot the wavelength.
+
+# Eigen frequencies
+
+## Strings
+
+A string of length l can have standing waves with wavelengths:
+
+| Wavelength    | Internal nodes | recprocal | Frequency factor |
+|---------------|----------------|-----------|------------------|
+| 2/1 l = 2l    | 0              | 1/2       | 1                |
+| 2/2 l = l     | 1              | 1         | 2                |
+| 2/3 l         | 2              | 3/2       | 3                |
+| 2/4 l = 1/2 l | 3              | 2         | 4                |
+| 2/5 l         | 4              | 5/2       | 5                |
+| 2/6 l = 1/3 l | 5              | 3         | 6                |
+
+Ref https://en.wikipedia.org/wiki/Overtone
+
+Ref https://en.wikipedia.org/wiki/String_vibration
+
+The wave speed in a string is the square root of the fractions between tension and density.
+The tension is the froce pulling in each end.
+
+$$
+v = \sqrt{\frac{T}{\mu}}
+$$
+
