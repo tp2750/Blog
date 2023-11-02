@@ -72,7 +72,7 @@ end
 xml_elements()
 
 # get all XPaths (xmlstarlet el enzyme-data.xml | sort -g | uniq -c )
-function xml_paths(File = "enzyme-data.xml"; max=20)
+function xml_path_summary(File = "enzyme-data.xml"; max=20)
     path = []
     paths = Dict()
     reader = open(EzXML.StreamReader, File)
@@ -96,9 +96,41 @@ function xml_paths(File = "enzyme-data.xml"; max=20)
     paths
 end
 
-xml_paths(;max=Inf) # 1.6 sec vs 2 sec cli
+xml_path_summary(;max=Inf) # 1.6 sec vs 2 sec cli
 
 map(x->x.content, findall("mysqldump/database/table_structure/field" , x1))
 map(x->x.content, findall("mysqldump/database/table_data/row/field" , x1))
 countattributes.(findall("mysqldump/database/table_data/row/field" , x1))
 (attributes.(findall("mysqldump/database/table_data/row/field" , x1))[1])[1].content
+
+function xml_path_list(File = "enzyme-data.xml"; max=20)
+    path = []
+    paths = []
+    reader = open(EzXML.StreamReader, File)
+    i = 0
+    while (item = iterate(reader)) != nothing && max > 0 && i < max
+        if reader.type == 1 ## "READER_ELEMENT"
+            i += 1
+            #@show reader.type, reader.name, reader.depth
+            d = reader.depth + 1
+            n = reader.name
+            if d > length(path)
+                push!(path, n)
+            else
+                path[d] = n
+            end
+            xpath = join(path[1:d],"/")
+            if length(paths) == 0
+                push!(paths, [xpath,1])
+            elseif last(paths)[1] == xpath
+                (paths[end])[2] += 1
+            else
+                push!(paths, [xpath,1])
+            end
+        end
+    end
+    close(reader)
+    paths
+end
+
+xml_path_list()
