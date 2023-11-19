@@ -27,6 +27,17 @@ R 4.3.0 release.
 ### python
 
 ### julia
+## Artificial Intelligence
+### Open AI
+#### ChatGPT
+##### ChatGPT release 2022-11-30
+ChatGPT release 2022-11-30.
+GPT-3.5
+* https://en.wikipedia.org/wiki/ChatGPT
+* https://help.openai.com/en/articles/6825453-chatgpt-release-notes
+##### GPT-4 release 2023-03-14
+GPT-4 release 2023-03-14
+* https://en.wikipedia.org/wiki/GPT-4
 # Science
 ## Mathematics
 ### Mathematicians
