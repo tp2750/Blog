@@ -158,3 +158,8 @@ function play(t::Tone)
     wavplay(tf)
 end
 ```
+
+``` julia
+play(t(400))
+
+```
