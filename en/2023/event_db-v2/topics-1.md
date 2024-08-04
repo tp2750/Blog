@@ -550,3 +550,19 @@ Resolution 176x176 TLC (single color)
 
 * https://www.t3.com/news/polar-announces-pacer-and-pacer-pro-running-watches-3-reasons-why-you-should-be-excited
 #### Ploar Grit X release date 2020-09
+
+# Pre history
+## Danish Stone Age -12500 to -1700
+Ref:
+* https://denstoredanske.lex.dk/stenalder
+* https://natmus.dk/historisk-viden/danmark/oldtid-indtil-aar-1050/
+### Mesolotikum (Jægerstenalder) -12500 to -4000
+From end of ice age to bondestenalder
+Ref: 
+* https://denstoredanske.lex.dk/pal%C3%A6olitikum
+### Noelitikum (Bondestenalder) -4000 to -1700
+Souces:
+* https://da.wikipedia.org/wiki/Stenalder
+* https://denstoredanske.lex.dk/stenalder
+## Danish Bronzealder -1700 to -500
+* https://natmus.dk/historisk-viden/danmark/oldtid-indtil-aar-1050/
