@@ -1,0 +1,49 @@
+Running needs to be able to handle continuously changing tone for the same now depending on context.
+
+Use case: play in just intonation:
+(c,e,g), (g,c,e): in piano: keep c,  e the same, move G down an octave. In just intonation, c and e change frequencies.
+I want this change of c, e to happen without triggering a new note, so no new envelope.
+
+The difference: keep same time or change time could be indicated with a slur in the score.
+How is this represented in data frame?
+Note also needs to include slur start.
+Or is slur an envelope?
+Alternative to envelope: transition funktion changing frequency from a to b by matching phase!
+We can only March phase when we know the tempo and running as those determine the phase at the transition to the next note.
+
+So akut means match phase.
+
+Input to rendering is a score: set of voices.
+Use the simple inversion in just intonation as fishing example.
+Try do this as simple is possible.
+Then build up from there.
+
+Keep in mind for this could be driven by Linnstrument: .
+
+So controls: bend, changing instrument parameters while now is held.
+Always maxi the phase!
+
+Check midi pme. At some point learn from midi2,0, but start by developing own ideas to understand challenges.
+
+In the case (c,e,g),(g,c,e) the key determine if it so c or g that stays in time ( constant in octave space).
+
+Next example is alternating triads C, G, C . Explore inversions and keys. Ask in just intonation.
+
+A time signal is used for rengøring.
+A temp generates a time signal.
+If a note is 2 beat it runs for 4 times as long as 1/2 beat.
+
+Name: Music Synthesis functions.
+
+Instrument includes running and envelope.
+Even with envelope apply the phase match.
+
+Given notes, running,  tempo, compute phase at each note boundary. This is independent of the time generating function ( sine,  saw, square). How about unsymmetrical tones?
+The issue is where in the cycle to start to the shape of the single cycle does not matter.
+We can draw a single pulse and use that as unit in a periodic function.
+That is also an instrument.
+Keep it instrument agnostic
+
+The phase depends on the frequency and duration, so we need note (pitch, duration), running, tempo.
+
+Pulse: 1 periodic function used to generate sound. The derivative should also be periodic.
