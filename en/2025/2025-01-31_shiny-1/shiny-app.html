@@ -1,0 +1,83 @@
+<h1 id="live-coding-a-shiny-app">Live coding a Shiny app</h1>
+<p>TP, 2025-02-03</p>
+<h1 id="hello-world">Hello World</h1>
+<p>Let’s start by saying hello.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(shiny)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(<span class="fu">h1</span>(<span class="st">&quot;Hello Shiny&quot;</span>))</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session){</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>app <span class="ot">&lt;-</span> <span class="fu">shinyApp</span>(ui, server)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">runApp</span>(app)</span></code></pre></div>
+<figure>
+<img src="img/01_hello.png" alt="First screen" />
+<figcaption aria-hidden="true">First screen</figcaption>
+</figure>
+<h1 id="add-a-plot">Add a plot</h1>
+<p>Now add a static plot</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(shiny)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(<span class="fu">h1</span>(<span class="st">&quot;Hello Shiny&quot;</span>),</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                <span class="fu">plotOutput</span>(<span class="st">&quot;p1&quot;</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>                )</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session){</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    output<span class="sc">$</span>p1 <span class="ot">&lt;-</span> <span class="fu">renderPlot</span>(<span class="fu">plot</span>(sin))</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>app <span class="ot">&lt;-</span> <span class="fu">shinyApp</span>(ui, server)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="fu">runApp</span>(app)</span></code></pre></div>
+<h1 id="rescale-sin-function">Rescale sin function</h1>
+<p>I want an oscilator with the frequency as parameter.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>sin1 <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">h=</span><span class="dv">1</span>) <span class="fu">sin</span>(<span class="dv">2</span><span class="sc">*</span>pi<span class="sc">*</span>x<span class="sc">*</span>h)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="fl">0.01</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">sin1</span>(x, <span class="at">h=</span><span class="dv">2</span>), <span class="at">type =</span> <span class="st">&quot;l&quot;</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>                             </span></code></pre></div>
+<figure>
+<img src="img/02_sin1.png" alt="2 Hz wave" />
+<figcaption aria-hidden="true">2 Hz wave</figcaption>
+</figure>
+<h1 id="add-slider">Add slider</h1>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(shiny)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>sin1 <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">h=</span><span class="dv">1</span>) <span class="fu">sin</span>(<span class="dv">2</span><span class="sc">*</span>pi<span class="sc">*</span>x<span class="sc">*</span>h)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="fl">0.001</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(<span class="fu">h1</span>(<span class="st">&quot;Hello Shiny&quot;</span>),</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>                <span class="fu">plotOutput</span>(<span class="st">&quot;p1&quot;</span>),</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>                <span class="fu">fluidRow</span>(<span class="fu">sliderInput</span>(<span class="st">&quot;h&quot;</span>, <span class="at">min=</span><span class="dv">1</span>, <span class="at">max=</span><span class="dv">10</span>, <span class="at">value=</span><span class="dv">1</span>, <span class="at">label=</span><span class="st">&quot;Frequency (Hz)&quot;</span>))</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>                )</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session){</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    output<span class="sc">$</span>p1 <span class="ot">&lt;-</span> <span class="fu">renderPlot</span>(<span class="fu">plot</span>(<span class="fu">sin1</span>(x, <span class="at">h=</span>input<span class="sc">$</span>h), <span class="at">type=</span><span class="st">&quot;l&quot;</span>))</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>app <span class="ot">&lt;-</span> <span class="fu">shinyApp</span>(ui, server)</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="fu">runApp</span>(app)</span></code></pre></div>
+<figure>
+<img src="img/03_slider.png" alt="Add slider" />
+<figcaption aria-hidden="true">Add slider</figcaption>
+</figure>
+<h1 id="extending-the-slider">Extending the slider</h1>
+<p>Make the slider wider and more detailed.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(shiny)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>sin1 <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">h=</span><span class="dv">1</span>) <span class="fu">sin</span>(<span class="dv">2</span><span class="sc">*</span>pi<span class="sc">*</span>x<span class="sc">*</span>h)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="fl">0.001</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(<span class="fu">h1</span>(<span class="st">&quot;Hello Shiny&quot;</span>),</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>                <span class="fu">plotOutput</span>(<span class="st">&quot;p1&quot;</span>),</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>                <span class="fu">fluidRow</span>(<span class="fu">column</span>(<span class="fu">sliderInput</span>(<span class="st">&quot;h&quot;</span>, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">10</span>, <span class="at">value=</span><span class="dv">1</span>, <span class="at">label=</span><span class="st">&quot;Frequency (Hz)&quot;</span>, <span class="at">width=</span><span class="st">&quot;100%&quot;</span>, <span class="at">step=</span><span class="fl">0.1</span>), <span class="at">offset=</span><span class="dv">1</span>, <span class="at">width=</span><span class="dv">10</span>))</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>                )</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session){</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    output<span class="sc">$</span>p1 <span class="ot">&lt;-</span> <span class="fu">renderPlot</span>(<span class="fu">plot</span>(x,<span class="fu">sin1</span>(x, <span class="at">h=</span>input<span class="sc">$</span>h), <span class="at">type=</span><span class="st">&quot;l&quot;</span>, <span class="at">main =</span> <span class="fu">sprintf</span>(<span class="st">&quot;%.1f Hz&quot;</span>, input<span class="sc">$</span>h)))</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>app <span class="ot">&lt;-</span> <span class="fu">shinyApp</span>(ui, server)</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="fu">runApp</span>(app)</span></code></pre></div>
+<figure>
+<img src="img/04_app.png" alt="Final app" />
+<figcaption aria-hidden="true">Final app</figcaption>
+</figure>
