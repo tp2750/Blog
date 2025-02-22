@@ -1,0 +1,19 @@
+* Synthesizers
+- https://discourse.julialang.org/t/creative-coding-in-julia-packages-for-audio-and-graphics-processing/72005
+  https://github.com/JuliaMusic
+  
+- https://discourse.julialang.org/t/audioschedules-jl/45833/6
+  - https://github.com/JuliaMusic/AudioSchedules.jl/tree/master # synthesizers
+-   https://github.com/bramtayl/Justly
+  
+- https://github.com/vitreo12/JuliaCollider
+- https://web.eecs.umich.edu/~fessler/course/100/
+* PortAudio
+
+PortAudio.devices()
+
+* AudioSchedules
+AudioSchedules allows you to schedule a sequence of overlapping audio synthesizers. Critically, it allows you to do this without lags or gaps. See the documentation for an example.
+
+* Makie
+
