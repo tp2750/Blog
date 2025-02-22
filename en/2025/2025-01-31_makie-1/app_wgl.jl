@@ -1,4 +1,4 @@
-using GLMakie
+using WGLMakie
 
 mySin(x; h=1) = sin(2pi*x*h)
 
@@ -10,6 +10,8 @@ x = 0:.001:1
 y = @lift mySin.(x, h=$(s1.value))
 
 lines!(a1, x, y)
+
+WGLMakie.activate!()
 
 f
 
