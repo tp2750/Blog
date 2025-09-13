@@ -3,6 +3,8 @@ TP 2025-09-13
 
 # Conclusions
 
+* When tuning a guitar using beat-tones, we are applying the "sum-to-product identity".
+
 # Background
 
 One way to tune a guitar is by using the "overtones".
@@ -13,7 +15,7 @@ This can be easier to hear for some people thatn comparing the full tones betwee
 
 # Explanation
 
-This is a consequence of the "sum of sines identity":^[1] 
+This is a consequence of the "sum of sines identity":[^1] 
 
 $$\sin(a) + \sin(b) = 2 \sin(\frac{a + b}{2}) \cos(\frac{a - b}{2})$$
 
@@ -27,4 +29,4 @@ This is what we hear, when tuning the guitar: when the tones are different, but 
 
 ![Proof of identity](proof-of-identity.png)
 
-[^1] https://en.wikipedia.org/wiki/List_of_trigonometric_identities#Sum-to-product_identities
+[^1] https://en.wikipedia.org/wiki/List_of_trigonometric_identities#Sum-to-product_identities, https://personal.math.ubc.ca/~cbm/aands/page_72.htm
