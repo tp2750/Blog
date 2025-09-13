@@ -29,4 +29,4 @@ This is what we hear, when tuning the guitar: when the tones are different, but 
 
 ![Proof of identity](proof-of-identity.png)
 
-[^1] https://en.wikipedia.org/wiki/List_of_trigonometric_identities#Sum-to-product_identities, https://personal.math.ubc.ca/~cbm/aands/page_72.htm
+[^1]: https://en.wikipedia.org/wiki/List_of_trigonometric_identities#Sum-to-product_identities, https://personal.math.ubc.ca/~cbm/aands/page_72.htm
