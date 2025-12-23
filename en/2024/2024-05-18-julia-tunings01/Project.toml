@@ -1,0 +1,8 @@
+[deps]
+Chain = "8be319e6-bccf-4806-a6f7-6fae938471bc"
+DataFramesMeta = "1313f7d8-7da2-5740-9ea0-a2ca25f37964"
+PortAudio = "80ea8bcb-4634-5cb3-8ee8-a132660d1d2d"
+PrettyTables = "08abe8d2-0d0c-5749-adfa-8a2ac140af0d"
+SampledSignals = "bd7594eb-a658-542f-9e75-4c4d8908c167"
+ShiftedArrays = "1277b4bf-5013-50f5-be3d-901d8477a67a"
+WAV = "8149f6b0-98f6-5db9-b78f-408fbbb8ef88"

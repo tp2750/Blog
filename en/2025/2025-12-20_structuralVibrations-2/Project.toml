@@ -1,0 +1,6 @@
+[deps]
+OrdinaryDiffEqRosenbrock = "43230ef6-c299-4910-a778-202eb28ce4ce"
+OrdinaryDiffEqTsit5 = "b1df2697-797e-41e3-8120-5422d3b24e4a"
+Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
+StructuralVibration = "85cedecc-ec67-4717-8ef3-ce3f1b8dc459"
+WAV = "8149f6b0-98f6-5db9-b78f-408fbbb8ef88"

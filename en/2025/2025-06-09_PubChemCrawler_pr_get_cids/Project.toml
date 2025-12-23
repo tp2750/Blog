@@ -1,0 +1,4 @@
+[deps]
+BrokenRecord = "bdd55f5b-6e67-4da1-a080-6086e55655a0"
+JSON3 = "0f8b85d8-7281-11e9-16c2-39a750bddbf1"
+PubChemCrawler = "30e472fa-2b12-4c0b-9705-07d174b7a4e1"

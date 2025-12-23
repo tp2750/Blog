@@ -58,7 +58,7 @@ savefig("beat_440-400.png")
 
 ## Beat tones
 
-The beat tone has the frequency of the difference between the 2 tones:
+The beat tone has the frequency of 1/(the difference between the 2 tones):
 
 
 ``` julia

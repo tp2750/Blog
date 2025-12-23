@@ -1,0 +1,85 @@
+** [2024-06-09 Sun]
+- trying to use it in tp@ace7900:~/github/tp2750/Blog/en/2024/2024-06-09_Sound$ 
+  Manifets in ~/github/tp2750/Blog/en/2024/2024-06-08_fix-PortAudio.jl/ says
+  [[[[deps.alsa_plugins_jll]]]]
+  deps = ["Artifacts", "FFMPEG_jll", "JLLWrappers", "Libdl", "PulseAudio_jll", "alsa_jll", "libsamplerate_jll"]
+  path = "/home/tp/.julia/dev/alsa_plugins_jll"
+  uuid = "5ac2f6bb-493e-5871-9171-112d4c21a6e7"
+  version = "1.2.2+1"
+- it worked yesterday. Try reproduce:
+  tp@ace7900:~/github/tp2750/Blog/en/2024/2024-06-08_fix-PortAudio.jl$ julia --project=. -O0
+  julia> using PortAudio ## Works
+- in 2024-06-09_Sound do ] dev /home/tp/.julia/dev/alsa_plugins_jll # works
+  rather than
+  ] add /home/tp/.julia/dev/alsa_plugins_jll # does not work
+  ] dev /home/tp/.julia/dev/alsa_plugins_jll # works
+** [2024-06-08 Sat]
+- [X] PortAudio.jl again
+  Latest release of upstream portaudio https://github.com/PortAudio/portaudio 19.7.0 2021-04-06
+  This is also the one builing build in libportaudio_jll:
+  https://github.com/JuliaPackaging/Yggdrasil/blob/master/L/libportaudio/build_tarballs.jl
+  Precompiling PortAudio
+        Info Given PortAudio was explicitly requested, output will be shown live 
+  ERROR: LoadError: InitError: could not load library "/home/tp/.julia/artifacts/d587f48a6815c72dec4b083bf297caec7a8e3f4b/lib/alsa-lib/libasound_module_pcm_a52.so"
+  libavcodec.so.58: kan ikke åbne delt objektfil: Ingen sådan fil eller filkatalog
+- [X] use the alsa lib compiled yesterday:
+  https://docs.binarybuilder.org/stable/building/#Building-and-testing-JLL-packages-locally
+  2024-06-08_fix-PortAudio.jl) pkg> dev alsa_plugins_jll
+  work in tp@ace7900:~/github/tp2750/Blog/en/2024/2024-06-08_fix-PortAudio.jl
+  (2024-06-08_fix-PortAudio.jl) pkg> dev alsa_plugins_jll
+     Cloning git-repo `https://github.com/JuliaBinaryWrappers/alsa_plugins_jll.jl.git`
+   Resolving package versions...
+    Updating `~/github/tp2750/Blog/en/2024/2024-06-08_fix-PortAudio.jl/Project.toml`
+  [5ac2f6bb] + alsa_plugins_jll v1.2.2+0 `~/.julia/dev/alsa_plugins_jll`
+    Updating `~/github/tp2750/Blog/en/2024/2024-06-08_fix-PortAudio.jl/Manifest.toml`
+  [5ac2f6bb] ~ alsa_plugins_jll v1.2.2+0 ⇒ v1.2.2+0 `~/.julia/dev/alsa_plugins_jll`
+  Build override:
+  julia> using alsa_plugins_jll
+  ERROR: InitError: could not load library "/home/tp/.julia/artifacts/d587f48a6815c72dec4b083bf297caec7a8e3f4b/lib/alsa-lib/libasound_module_pcm_a52.so"
+  libavcodec.so.58: kan ikke åbne delt objektfil: Ingen sådan fil eller filkatalog
+
+  tp@ace7900:~/github/tp2750/Forks/Yggdrasil/A/alsa_plugins$ julia build_tarballs.jl --deploy=local
+  tp@ace7900:~/.julia/dev/alsa_plugins_jll$ cp ~/github/tp2750/Forks/Yggdrasil/A/alsa_plugins/products/* override/
+  julia> using alsa_plugins_jll
+  # Now new error:
+  julia> using PortAudio
+  Precompiling PortAudio
+        Info Given PortAudio was explicitly requested, output will be shown live 
+  ERROR: LoadError: InitError: could not load library "/home/tp/.julia/dev/alsa_plugins_jll/override/lib/alsa-lib/libasound_module_conf_pulse.so"
+  /home/tp/.julia/dev/alsa_plugins_jll/override/lib/alsa-lib/libasound_module_conf_pulse.so: kan ikke åbne delt objektfil: Ingen sådan fil eller filkatalog
+  # expand tar
+  tp@ace7900:~/.julia/dev/alsa_plugins_jll/override$ tar xf alsa_plugins.v1.2.2.x86_64-linux-gnu.tar.gz
+  # install explicit FFMPEG:
+  (2024-06-08_fix-PortAudio.jl) pkg> add FFMPEG_jll@4.4.0
+- [ ] Update to new alsa_plugin:
+  https://github.com/JuliaPackaging/Yggdrasil/pull/8863  
+** [2024-06-07 Fri]
+- [X] trying to fix PortAudio.jl. 
+  - tp@ace7900:~/github/tp2750/Forks/Yggdrasil/L/libportaudio # This builds ok
+  - tp@ace7900:~/github/tp2750/Forks/Yggdrasil/A/alsa_plugins$  # this fails:
+    ERROR: LoadError: Experimental platforms cannot be used with Julia v1.5-.
+    Change `julia_compat` to require at least Julia v1.6
+  -build_tarballs(ARGS, name, version, sources, script, platforms, products, dependencies)
+  +build_tarballs(ARGS, name, version, sources, script, platforms, products, dependencies; julia_compat="1.6") # this is ok as alsa_plugins depends on alsa_jll, which needs 1.6
+[ Info: Could not locate libasound_module_pcm_a52 inside ["/home/tp/github/tp2750/Forks/Yggdrasil/A/alsa_plugins/build/aarch64-linux-gnu/e3vVcyPj/aarch64-linux-gnu-libgfortran3-cxx03/destdir/lib/alsa-lib", "/home/tp/github/tp2750/Forks/Yggdrasil/A/alsa_plugins/build/aarch64-linux-gnu/e3vVcyPj/aarch64-linux-gnu-libgfortran3-cxx03/destdir/lib64", "/home/tp/github/tp2750/Forks/Yggdrasil/A/alsa_plugins/build/aarch64-linux-gnu/e3vVcyPj/aarch64-linux-gnu-libgfortran3-cxx03/destdir/lib"]
+┌ Error: Built alsa_plugins but libasound_module_pcm_a52 still unsatisfied:
+└ @ BinaryBuilder ~/.julia/packages/BinaryBuilder/L8tBh/src/AutoBuild.jl:946
+[ Info: Could not locate libasound_module_rate_lavrate inside ["/home/tp/github/tp2750/Forks/Yggdrasil/A/alsa_plugins/build/aarch64-linux-gnu/e3vVcyPj/aarch64-linux-gnu-libgfortran3-cxx03/destdir/lib/alsa-lib", "/home/tp/github/tp2750/Forks/Yggdrasil/A/alsa_plugins/build/aarch64-linux-gnu/e3vVcyPj/aarch64-linux-gnu-libgfortran3-cxx03/destdir/lib64", "/home/tp/github/tp2750/Forks/Yggdrasil/A/alsa_plugins/build/aarch64-linux-gnu/e3vVcyPj/aarch64-linux-gnu-libgfortran3-cxx03/destdir/lib"]
+┌ Error: Built alsa_plugins but libasound_module_rate_lavrate still unsatisfied:
+└ @ BinaryBuilder ~/.julia/packages/BinaryBuilder/L8tBh/src/AutoBuild.jl:946
+ERROR: LoadError: Cannot continue with unsatisfied build products!
+
+FFMPEG uses compat:
+Dependency("x265_jll"; compat="~3.5"),
+Dependency("Bzip2_jll"; compat="1.0.8"),
+Setting compat on FFMPEG 4.4 is not enough to fix it
+
+https://github.com/JuliaBinaryWrappers/PortAudio_jll.jl is updated 2019-12-19
+Version of FFMPEG was then:  "4.1.0+2" https://github.com/JuliaBinaryWrappers/FFMPEG_jll.jl/blob/FFMPEG-v4.1.0%2B3/Project.toml  2019-12-07
+
+set the BINARYBUILDER_RUNNER environment variable to "privileged" before starting Julia.
+Try only x64. This works
+Fails: Platform("aarch64","linux"), Platform("aarch64","linux", libc="musl")
+
+https://github.com/JuliaPackaging/Yggdrasil/pull/8863
+https://github.com/JuliaPackaging/Yggdrasil/issues/8714

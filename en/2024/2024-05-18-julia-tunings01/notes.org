@@ -1,0 +1,217 @@
+* Exploring musical tunings with Julia
+TP, 2024-05-18
+
+** Abstract
+The equal-tempered 12-tone scale is ubiquitous in modern western music.
+It is characterized by successive semi-tones having a
+constant frequency ratio of 2^(1/12) ≈ 1.06.
+
+But there are many other ways to define tunings of musical instruments,
+and Julia is a great tool for exploring these tuning systems.
+The talk will demonstrate how I have used Julia to generate tones
+and explore tuning systems visually and auditory.
+
+Julia has a number of well designed packages for representation of musical notes
+and generation of sounds.
+I've used these packages to explore tuning systems based on a series of blog posts by John Baez.
+I'll share my experiences and make some noise for Julia as a musical synthesizer.
+
+* Definitions
+- tone: pitch (frequency), duration, loudness, timbre. 
+- note: abstrat tone. frequency, duration, (loudness)
+
+- note interval
+- pitch ratio
+
+Tuning:
+Mapping of note intervals to pitch ratios
+** Wikipedia
+- pitch: frequency
+- tone: steady periodic sound  
+Note: abstrat note steps. Integers. Used for ordering of tones
+Note interval between note_1 and note_2: note_2 - note_1.
+Note is number of steps up from basic tone.
+
+Tone: frequency
+
+Sound: physical representation
+
+** https://steemit.com/indonesia/@kelasmusik/basic-theory-of-music
+
+Tone: Tones are regular sounds, which have a single single frequency.
+ In music theory, each tone has a certain pitch or tuning according to its frequency 
+
+Note:
+
+** https://www.m5music.hk/en/dictionary/tone/
+
+Pitch: frequency
+
+Tone: frequency + timbre
+
+Note:
+
+** https://music.stackexchange.com/questions/3262/what-are-the-differences-between-tone-note-and-pitch
+
+- Pitch: A pitch is a particular frequency of sound
+- A note is a named pitch. A note can also carry temporal information
+-   
+
+*** https://music.stackexchange.com/a/17053
+- Note: (from "notation"): is a certain frequency that you write or read.
+- Pitch: is a certain frequency that you sing or play.
+- Tone: is a certain frequency that you hear.
+- Timbre: is a certain quality (or color) of the tone, depending on the instrument and how you play/sing the tone.
+
+* What I want to do
+
+Given a score as a set of note steps.
+Map the note steps to frequencies given a tuning system.
+Play the result.
+
+Stretch goal: dynamically map to frequencies, so all intervals are simple (as in just intonation).
+
+* Package review
+
+** MIDI.jl
+
+Representation of notes as
+
+- pitch::UInt8    Step from C-1 = 0
+- velocity::Uint8 Dynamic intensity (0..127)
+- position::Int   Absolute position in ticks
+- duration::Int   Duration in ticks
+- channel::UInt8  Cahnnel of the track
+
+** PortAudio
+https://github.com/JuliaAudio/PortAudio.jl
+PortAudio.jl is a wrapper for libportaudio, which gives cross-platform access to audio devices.
+It is compatible with the types defined in SampledSignals.jl.
+
+** SampledSignals
+https://github.com/JuliaAudio/SampledSignals.jl
+SampledSignals is a collection of types intended to be used on multichannel sampled signals like audio or radio data, EEG signals, etc., to provide better interoperability between packages that read data from files or streams, DSP packages, and output and display packages.
+
+** MusicTheory.jl
+The goal of this package is to provide a Julian interface for representing the objects and structures in ("Western") music theory (based on semitones).
+
+Can I build on the data types here, and map them to frequencies.
+
+** Justly
+A package for composing music in just intonation
+https://github.com/bramtayl/Justly.jl
+
+** PortMidi
+A Julia wrapper for the C library [PortMidi](https://github.com/PortMidi/portmidi)
+PortMidi - Cross-Platform MIDI IO.
+https://github.com/JuliaMusic/PortMidi.jl
+  
+* Design
+
+MusicTheory has the same Note as I defined:
+
+- frequency, duration.
+
+Note:
+- frequency, duration, loudness
+
+- pitch-step
+
+pitch-step + tuning -> frequency.
+
+Tuning: set of frequency ratios within an octave.
+How to choose between dim 5th and aug 4th in pythegorean?
+
+Pitch-steps are relative to previous note in a voice (-6..0..6).
+For polyphony: also make sure the harmonies are within the tuning.
+
+This puts constrains on the music.
+Check various scores.
+
+- score: set of voices.
+- voice: note-steps
+
+- tonic step: steps up/down from reference tone.
+  reference tone can be tonic (absolute tuning) or previous tone (relative)
+
+- TODO: function: find closest note in tuning to given trequency, step, ratio, cent, etc
+
+- cent: 1200* log2(f2/f1) ## https://en.wikipedia.org/wiki/Interval_(music)  
+
+* Making sound
+
+Reproduce what I did in en/2023/making_sounds-1/making_sounds.md
+
+** WAV.jl
+```
+using WAV
+fs = 8e3
+t = 0.0:1/fs:prevfloat(1.0)
+f = 1e3
+y = sin.(2pi * f * t) * 0.1
+wavwrite(y, "example.wav", Fs=fs)
+
+y, fs = wavread("example.wav")
+y = sin.(2pi * 2f * t) * 0.1
+wavappend(y, "example.wav")
+
+y, fs = wavread("example.wav")
+wavplay(y, fs)
+```
+
+This still works
+
+
+** PortAudio
+``` julia
+using PortAudio, SampledSignals
+S = 8192 # sampling rate (samples / second)
+x = cos.(2pi*(1:2S)*440/S) # A440 tone for 2 seconds
+PortAudioStream(0, 2; samplerate=S) do stream
+    write(stream, x)
+end
+```
+Fails: ERROR: PortAudioException: Invalid sample rate
+
+* Notes from [2024-05-14 Tue]
+
+Relevant packages:
+Making sounds
+Encoding bored
+Generation tones
+
+Nomenclature: notes, tones, intervals, timbre.
+
+Scales and tunings:
+Most Acoustic instruments work by standoff waves. Examples strings, wind instruments.
+Standing waves: length of during our pipe, number of nodes.
+Frequency comes from speed of sound in media.
+Pipes media is air.
+Strings speed of sound depends on density and tension.
+Strings are transversal waves, pipes are longitudinal waves.
+Table for puppies with length, nodes, frequency.
+These are harmonic overtones.
+
+Generate simple sine wave. Add overtones and undertone.
+Plot graph folded into first octave.
+Use make UI and observables to generate sounds and show graph folded into octaves
+
+Concept of octave: double length: damned now points . Same overtones.
+Show in plot and table.
+Conclusion: octave is equivalent tone.
+
+Overtones in octave space: fold intro standard octave. Choose units so standard octave is [1,2].
+
+Table with overtones in standard octave.
+Observe these are rational intervals: quint, quarter, terts.
+
+Take first of these: quint.
+Take sequence of notes generated by quint.
+After 12 we are almost back. Difference is comma?
+Show by plot on circle.
+Show using some waves.
+
+
+
+Compare standard harmonic chord : prime, terts, quint to overtones.
+Plot on circle, play.

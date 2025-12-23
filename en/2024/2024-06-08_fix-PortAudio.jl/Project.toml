@@ -1,0 +1,4 @@
+[deps]
+FFMPEG_jll = "b22a6f82-2f65-5046-a5b2-351ab43fb4e5"
+PortAudio = "80ea8bcb-4634-5cb3-8ee8-a132660d1d2d"
+alsa_plugins_jll = "5ac2f6bb-493e-5871-9171-112d4c21a6e7"

@@ -1,0 +1,282 @@
+* Objective
+Start simple by solving and fitting a simple exponential model.
+
+Do everything inside functions.
+
+* Log
+** [2021-09-23 tor]
+(@v1.6) pkg> activate .
+  Activating new environment at `~/github/tp2750/Blog/Michaelis-Menten/01_exp/Project.toml`
+
+(01_exp) pkg> add DifferentialEquations DiffEqFlux
+*** Documentation notes
+**** Tutorials
+- Overview: https://diffeq.sciml.ai/stable/#Getting-Started:-Installation-And-First-Steps
+- Simple: https://diffeq.sciml.ai/stable/tutorials/ode_example/#Example-1-:-Solving-Scalar-Equations
+- Systems: https://diffeq.sciml.ai/stable/tutorials/ode_example/#Example-2:-Solving-Systems-of-Equations
+- Parameter Estimation https://diffeq.sciml.ai/stable/analysis/parameter_estimation/#parameter_estimation
+**** Parameter estimation
+- https://diffeq.sciml.ai/stable/analysis/parameter_estimation/#parameter_estimation
+*** Fitting
+See https://github.com/SciML/DiffEqFlux.jl/blob/d21eb9d961a22b31e196cdecc3e2ee6c9195e2a2/src/train.jl#L1-L51
+for what DiffEqFlux.sciml_train does.
+** [2021-09-25 lør]
+** [2021-09-26 søn]
+02-exp2.jl
+2 exponentials
+
+This works.
+
+Key: the loss-funtions needs to be a function only of the optimization parameters, so we can compute:
+
+ForwardDiff.gradient(x -> first(loss_exp2(x)), p)
+
+This is done by having other parameters and data to fit as keyword arguments.
+
+If p=[0.,0.] if finds an alternative solution with decaying exponentials.
+
+We need to be reasonably close to the correct solution to find it.
+
+Next: redo the michaelis Menten example.
+
+Started in m-m.jl
+** [2021-09-27 man]
+03-gradient.jl
+- [X] Make loss function by a factory function to capture the target data in the closure.
+      This should make code warn type happy.
+
+- [X] Plot gradient felt.
+    If it gets clotted: scale alpha by absolute value of gradient.
+- [X] Catch non-convergence to be able to see boundary og fortalte area.
+  was not needed poblem was solved by first ∘ mY_loss
+
+- [X] Data structure: x,y, gradient.
+
+- [ ] Function to compute gradient field: select 2 parameters to plot(og we have more).
+
+- Turns our the useful thing to plot is contour plot :-)
+*** DONE Contour plot
+- low discretization shows local minima:
+  plot_loss(my_loss)
+  plot_loss(my_loss; scale_fun = log)
+  plot_loss(my_loss;  p_grid = (0.:.1:2., 0.:.1:2.),scale_fun = log)
+  plot_loss(my_loss;  p_grid = (0.:.05:2., 0.:.05:2.), scale_fun = log)
+  @time plot_loss(my_loss;  p_grid = (0.:.01:2., 0.:.01:2.), scale_fun = log) ## 7 sec
+
+*** test the factory
+## @code_warntype is not happy. Was the old better?
+function loss_exp2(k; A=[2.,1.], target=target)
+    ## target: timestamp, target
+    sol =  solve_exp2(k; A=A)
+    sol1 = sol(target.timestamp)
+    probe = obs_exp2(sol1.u)
+    loss = sum(abs2, probe .- target.target)
+    return loss, sol
+end
+l1, s1 = loss_exp2([1.01, 1.5]  , A=[2.,1.], target = target) ; l1
+@time ForwardDiff.gradient(x -> first(loss_exp2(x)), p)## 3.8 sec
+## Same time, but @code_warntype is more blue
+
+
+*** Plotting vectorfield
+**** LinearAlgebra.quiver
+# https://discourse.julialang.org/t/plotting-vector-fields/32704/2?u=tp2750
+xs = -2:0.2:2
+ys = -2:0.2:2
+
+using LinearAlgebra
+
+df(x, y) = normalize([-y, x]) ./ 10
+
+xxs = [x for x in xs for y in ys]
+yys = [y for x in xs for y in ys]
+
+quiver(xxs, yys, quiver=df)
+
+function test_try(x)
+ res = try
+** [2021-09-29 ons]
+04-mm.jl
+
+Complains, but works with 
+res = DiffEqFlux.sciml_train(my_loss, [0.1,0.1,0.1], maxiters=500)
+
+However, this also gives solution, but a wrong one (gradient not zero!)
+a2 = DiffEqFlux.sciml_train(my_loss, p, ADAM(0.1), maxiters=500)
+It helps using ADAM(0.000001) but it is still not as good as the other
+
+Perhaps use stiff solver: https://diffeqflux.sciml.ai/stable/examples/stiff_ode_fit/
+?
+** [2021-09-30 tor]
+05-mm2.jl
+
+- [X] Vary only k1,  k3. 
+     Compute K2 from k1 as fixed ratio 
+
+- [X] Set step size in other opt method as done in ADAM. 
+   DiffEqFlux.sciml_train(my_loss, p, ADAM(0.00001), maxiters=500)
+   
+- [ ] Try also SE + P + S as target. 
+
+
+- [ ] Exp2 problem: loss plot of known analytical 
+      Compute stationary point analytically. 
+
+
+
+** [2021-10-01 fre]
+
+Module: FlowBinding Experiments 
+Export flow binding experiment 
+
+Keep rest local. 
+
+Flow BindingExperiment: name, experiment_sections 
+
+Section: 
+Time_start, time_end, start_values (u0 in this part) 
+
+Data: data frame: timestamp, measurement. 
+
+Run: experiment, data 
+
+Run Model: run, model, parameter values 
+
+Plot run, plot run_model 
+
+
+Better: 
+Model fit: model, run, initial parameters, solution 
+
+Note: samme model and parameters for all sections. Only initial conditions change with section. 
+
+Each section is fitted with t starting from 0. 
+
+*** refs
+Here, the order of unknowns in u0 and p matches the order that species and parameters first appear within the DSL. 
+They can also be determined by examining the ordering within the species(rn) and parameters vectors, 
+or accessed more explicitly through the speciesmap(rn) and paramsmap(rn) dictionaries, 
+which map the ModelingToolkit Terms and/or Syms corresponding to each species or parameter to their integer id. 
+Note, if no parameters are given in the @reaction_network, then p does not need to be provided. 
+
+From 
+https://catalyst.sciml.ai/dev/tutorials/models/ 
+
+*** Latexify
+https://github.com/korsbo/Latexify.jl
+
+using Latexify
+latexify(oct)
+
+L"\begin{align}
+\require{mhchem}
+\ce{ E + S &<=>[k{_1}][k\_-{_1}] ES}\\
+\ce{ ES &->[k{_2}] P + E}\\
+\ce{ E + P &<=>[k{_3}][k\_-{_3}] EP}\\
+\ce{ E2 + S &<=>[k{_4}][k\_-{_4}] E2S}
+\end{align}
+"
+
+
+latexify(oct; env=:arrow)
+
+*** Graphviz
+Graph(oct)
+
+*** IJulia
+using IJulia
+notebook(".")
+
+plot_reaction_networks.ipynb
+** [2021-10-02 lør]
+07-optim.jl
+
+*** Do we need much smaller stepsize?
+- [ ] 1e-8 start step
+*** Multistart methods
+https://github.com/tpapp/MultistartOptimization.jl
+Also supported be GalacticOptim: 
+*** Learned
+06-octet: 
+- cb function to follow loss and gradient-norm on log-scale.
+  This helps a lot to understand what happens.
+- NelderMead() is robust
+- BFGS(initial_stepnorm=1E-12) converges fast, but can get undtable with exploding gradients
+- ADAM(1E-3) is quite slow to converge.
+- circshift can be used to generate new starting points
+*** Needed:
+- some restart method (eg simulated annealing?) to get out of local minima
+- change to  NelderMead() if gradients of BFGS(initial_stepnorm=1E-12) explode (> 1E3)
+- perhaps also ADAM to avoid local minima?
+- set lb in OptimizationProblem to avoid negative parameters 
+  https://galacticoptim.sciml.ai/stable/API/optimization_problem/
+** [2021-10-09 lør]
+08-fit.jl
+Reference og Octet platform: http://separations.co.za/wp-content/uploads/2017/05/OCTET.pdf
+*** HUSK
+TODO: try deepcopy all arguments to see if @code_warntype is then more happy
+*** TIL: things I leared
+https://catalyst.sciml.ai/stable/tutorials/generated_systems/ :
+numparams(mm)
+numspecies(mm)
+reactions(mm) === equations(mm)
+**** Fumerase is diffusion limited enzyme
+https://en.wikipedia.org/wiki/Michaelis%E2%80%93Menten_kinetics#Applications
+The constant k cat / K M {\displaystyle k_{\text{cat}}/K_{\mathrm {M} }} k_{{\text{cat}}}/K_{{\mathrm {M}}} (catalytic efficiency) is a measure of how efficiently an enzyme converts a substrate into product. Diffusion limited enzymes, such as fumarase, work at the theoretical upper limit of 108 – 1010 M−1s−1, limited by diffusion of substrate into the active site.[15]
+**** bounds
+Trix here: https://discourse.julialang.org/t/how-to-put-bounds-on-nelder-mead-in-optim/58183/2?u=tp2750
+increase loss close to bounds
+*** DONE Analytical solution
+Go back to the double exponential from 02-exp2.jl, 03-gradient.jl
+Solve it analytically.
+du = p * u <=> u(t) = A exp(p * t)
+Target function: 
+f1(t) = u0[1] * exp(p[1]*t)
+f2(t) = u0[2] * exp(p[2]*t)
+target_fun(x,y) = x-y
+## Analytical max:
+## 0 = df1 - df2
+## t = log(p[2]u0[2]/(p[1]u0[1])/(p[1]-p[2])
+Example: 
+p     = [1.01, 1.5]
+u0    = [2.,1.]
+t_max = log(1.5/1.01/2.)/(1.01-1.5)
+0.6074130679692837
+*** DONE Fit SE part of MM to cotet data
+This firs well to the onset , but fails to capture the right part of the curve.
+Textbook octet dat aonly increase http://separations.co.za/wp-content/uploads/2017/05/OCTET.pdf 
+so the decrase is from substrate being cleaved and released.
+? which surface are we using?
+*** DONE Make factory function for loss and callback together for consistency
+ make_funs(reaction_model, obs_function, parameters, data)
+*** TODO approximate Michaelis-Menten solution by double exponential
+Generate data of A[S] + B[ES] from MM solution, and fit double exponential to that.
+Can we use thsi to estimate starting parameters for a fit of MM to binding data?
+*** TODO Fit analytical solution to Octet data
+Can we fit a double exponential to the octet data from 06-octet?
+*** TODO Constrain parameters in fit of Michaelis-Menten or octet model
+Octet model in 06-octet.jl, Michaelis Menten model in 04-mm.jl
+*** TODO Use analytical solution to get starting values for more complex model
+** [2021-10-10 søn]
+09-octet2.jl
+*** different weights for S and SE
+*** Struct to describe problem
+- [ ] Did I already have some thoughts in the Octet repo?
+- [ ] Thoughts on model struct
+ Model
+  reaction_network::Catalyst
+  model_parameters::Vector{Flota64}
+  binding_weights::Vector{Float64}
+ Fit (for easy fitting)
+  model::Model (above)
+  data::TimeSeries
+ TimeSeries
+  timestamp
+  response
+- [X] update positivity constraint by using x^2
+- [X] positivty constraint as penalty-parameter to make_funs (rather than kw)
+- [X] pentalty on y0 as parameter to make_funs (eg 100 may allow a small baseline)
+*** TODO
+- [X] penalty to keep P0 to zero
+Currently starts very high in optimal solution
+- [ ] try P weight as free parameter, and perhaps SE, and perhaps S

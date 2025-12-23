@@ -1,5 +1,5 @@
 using PortAudio, SampledSignals
-using Statistics
+using Statistics, StatsBase
 # S = 8192 # sampling rate (samples / second)
 # x = cos.(2pi*(1:2S)*440/S) # A440 tone for 2 seconds
 # PortAudioStream(0, 2; samplerate=S) do stream
@@ -22,7 +22,7 @@ end
 
 function mix(samples)
     x = mean(samples)
-    x ./ max(x)
+    x ./ maximum(x)
 end
 
 function play_sample(x; sample_rate = 8192)

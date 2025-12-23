@@ -1,3 +1,11 @@
+* 2024-10-20
+FFT:
+- https://github.com/Marco-Congedo/FourierAnalysis.jl
+Can we do FFT symbolicly?
+- still FFT: https://docs.sciml.ai/SciMLOperators/stable/tutorials/fftw/
+- step function:  https://github.com/christiankral/FourierSeries.jl
+  
+* 2024-10-13
 Running needs to be able to handle continuously changing tone for the same now depending on context.
 
 Use case: play in just intonation:

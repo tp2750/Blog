@@ -16,9 +16,9 @@ R = 128
     move(Point(0,-R))                            # start at top
     arc(Point(0,0), R, -pi/2, pi/2, :path)       # right side arc to bottom
     arc(Point(0,R/2), R/2, pi/2, -pi/2, :path)   # small arc up
-    carc(Point(0,-R/2), R/2,  pi/2, -pi/2,:path) # small arc couterclockwise
+    carc(Point(0,-R/2), R/2,  pi/2, -pi/2,:path) # small arc counterclockwise
     fillpath()
-    circle(Point(0,0), R, action=:stroke)        # large circle
+    circle(Point(0,0), R, action=:stroke)        # outline circle
     circle(Point(0,-R/2), R/8, action=:fill)     # white fish eye
     sethue("white")
     circle(Point(0,R/2), R/8, action=:fill)      # black fish eye

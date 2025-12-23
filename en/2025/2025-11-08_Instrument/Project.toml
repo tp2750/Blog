@@ -1,0 +1,4 @@
+[deps]
+MIDI = "f57c4921-e30c-5f49-b073-3f2f2ada663e"
+Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
+StatsBase = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"

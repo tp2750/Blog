@@ -1,0 +1,8 @@
+name = "RenderTones"
+uuid = "6f33f7dd-4a48-4754-bf71-19731e228d5d"
+authors = ["Thomas Poulsen <ta.poulsen@gmail.com>"]
+version = "0.1.0"
+
+[deps]
+FFMPEG = "c87230d0-a227-11e9-1b43-d7ebe4e7570a"
+PortAudio = "80ea8bcb-4634-5cb3-8ee8-a132660d1d2d"
