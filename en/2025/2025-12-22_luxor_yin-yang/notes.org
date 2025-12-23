@@ -1,0 +1,36 @@
+* Drawing Yin-Yan gin Luxor.
+
+Luxor: https://juliagraphics.github.io/LuxorManual/stable/
+
+Yin-yang:
+- https://www.sciencedirect.com/science/article/abs/pii/S0097849306002263 (R/8)
+- https://www.reddit.com/r/SacredGeometry/comments/11bqgqp/mathematical_precision_of_yin_yang_symbol/ (1/6)
+
+* Plan
+- Center
+- R = 100
+- Draw circle with radius R
+- Center (0, -R/2)
+- Draw circle radius R/2
+- Draw circle radius R/8
+- Center (0, R/2)
+- Draw circle radius R/2
+- Draw circle radius R/8
+  
+** Questions
+- How to fill the black "fish"?
+
+** Analysis
+- we can fill paths: https://juliagraphics.github.io/LuxorManual/stable/explanation/pathspolygons/
+   circle(Point(0,0), 128, :path)
+- we can reverse polygons, but not circles:
+  https://juliagraphics.github.io/LuxorManual/stable/explanation/pathspolygons/#Holes
+- we can turn circles into polygons with ploy()
+    https://juliagraphics.github.io/LuxorManual/stable/explanation/pathspolygons/#Polygons
+
+    
+* Solution
+- Build the black fich using arcs
+- fill balck fish
+- add black fish eye  
+- add outer circle and white fish eye
