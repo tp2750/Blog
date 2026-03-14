@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<container>
+  <type1>
+  <datarecord>
+    <field1>value1-1</field1>
+    <field2>value1-2</field2>
+  </datarecord>
+  <datarecord>
+    <field1>value2-1</field1>
+    <field2>value2-2</field2>
+  </datarecord>
+  </type1>
+  <type2>
+    <datarecord>
+      <field name="field1">value1-1</field>
+      <field name="field2">value1-2</field>
+    </datarecord>
+    <datarecord>
+      <field name="field1">value2-1</field>
+      <field name="field2">value2-2</field>
+    </datarecord>
+  </type2>
+  <type3>
+    <datarecord field1="value1-1" field2="value1-2" />
+    <datarecord field1="value2-1" field2="value2-2" />
+  </type3>
+</container>

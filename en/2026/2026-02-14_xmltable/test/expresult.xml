@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ExperimentResults>
+  <ExperimentInfo Name="Assay001">
+    <ExpDescription/>
+    <RunID>81EC636D</RunID>
+  </ExperimentInfo>
+  <AssayParamsInfo/>
+  <KineticsData>
+    <Step>
+      <CommonData>
+        <SampleLocation>1</SampleLocation>
+        <Temperature>20.6</Temperature>
+      </CommonData>
+      <CycleTime>0.2</CycleTime>
+    </Step>
+    <Step>
+      <CommonData>
+        <SampleLocation>2</SampleLocation>
+        <Temperature>20</Temperature>
+      </CommonData>
+      <CycleTime>0.2</CycleTime>
+    </Step>
+    <Step>
+      <CommonData>
+        <SampleLocation>9</SampleLocation>
+        <Temperature>20</Temperature>
+      </CommonData>
+      <CycleTime>0.2</CycleTime>
+    </Step>
+  </KineticsData>
+</ExperimentResults>
